@@ -1,9 +1,9 @@
 root {
   --bg: #B2CDD7;
   --card: #111a2e;
-  --accent: #B2CDD7;
-  --accent-soft: #5893A7;
-  --text: #90DDF5;
+  --accent: #33658A;
+  --accent-soft: #2F4858;
+  --text: #8FBFE0;
   --muted: #B2CDD7;
   --danger: #B2CDD7;
 }
@@ -15,7 +15,7 @@ root {
 
 body {
   margin: 0;
-  background: linear-gradient(#385E6B, #385E6B, #52BFF7);
+  background: linear-gradient(#33658A, #33658A, #2F4858);
   color: var(--text);
   min-height: 100vh;
 }
