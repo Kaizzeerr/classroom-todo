@@ -1,53 +1,72 @@
+:root {
+  --bg: #0b1220;
+  --card: #111a2e;
+  --accent: #1e90ff;
+  --accent-soft: #4da3ff;
+  --text: #e6ecff;
+  --muted: #9aa7c7;
+  --danger: #ff5c5c;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, Arial, sans-serif;
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  background: #eef1f5;
   margin: 0;
+  background: linear-gradient(135deg, #0b1220, #0e1630);
+  color: var(--text);
+  min-height: 100vh;
 }
 
-header {
-  background: #1f2937;
-  color: white;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-main {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
+/* Cards */
 .card {
-  background: white;
+  background: var(--card);
+  border-radius: 14px;
   padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0,0,0,.4);
+  animation: fadeUp .4s ease;
 }
 
-.hidden {
-  display: none;
-}
-
+/* Buttons */
 button {
-  padding: 6px 12px;
-  margin: 4px;
-  border-radius: 6px;
+  background: var(--accent);
   border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  color: white;
   cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
 }
 
-input, textarea, select {
+button:hover {
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: scale(.97);
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+/* Inputs */
+input, select, textarea {
   width: 100%;
   padding: 8px;
-  margin: 6px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: none;
+  background: #0f1933;
+  color: var(--text);
 }
 
-li {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+/* Tabs */
+#subjectTabs button {
+  margin: 4px;
 }
+
+/* Lists */
