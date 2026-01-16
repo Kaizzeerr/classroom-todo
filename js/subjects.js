@@ -1,23 +1,48 @@
 const subjects = JSON.parse(localStorage.getItem('subjects')) || {
-Math: [], Science: [], English: []
+  Math: [],
+  Science: [],
+  English: []
 };
-
 
 let currentSubject = 'Math';
 
-
 function saveSubjects() {
-localStorage.setItem('subjects', JSON.stringify(subjects));
+  localStorage.setItem('subjects', JSON.stringify(subjects));
 }
 
+function addSubject() {
+  if (!newSubject.value) return;
+  subjects[newSubject.value] = [];
+  newSubject.value = '';
+  saveSubjects();
+  log('Added subject');
+  renderSubjects();
+}
+
+function deleteSubject(name) {
+  if (!confirm('Delete subject?')) return;
+  delete subjects[name];
+  saveSubjects();
+  log('Deleted subject');
+  renderSubjects();
+}
 
 function renderSubjects() {
-const c = document.getElementById('subjectTabs');
-c.innerHTML = '';
-Object.keys(subjects).forEach(s => {
-const b = document.createElement('button');
-b.textContent = s;
-b.onclick = () => { currentSubject = s; renderTodos(); };
-c.appendChild(b);
-});
+  subjectTabs.innerHTML = '';
+  Object.keys(subjects).forEach(s => {
+    const btn = document.createElement('button');
+    btn.textContent = s;
+    btn.onclick = () => {
+      currentSubject = s;
+      renderTodos();
+    };
+    subjectTabs.appendChild(btn);
+
+    if (users[currentUser].role !== 'viewer') {
+      const del = document.createElement('button');
+      del.textContent = '✖';
+      del.onclick = () => deleteSubject(s);
+      subjectTabs.appendChild(del);
+    }
+  });
 }
