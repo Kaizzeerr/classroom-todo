@@ -15,7 +15,7 @@
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #0b1220, #0e1630);
+  background: linear-gradient(135deg, #385E6B, 52BFF7);
   color: var(--text);
   min-height: 100vh;
 }
