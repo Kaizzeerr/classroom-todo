@@ -81,9 +81,4 @@ function renderUsers() {
     row.appendChild(del);
     userManager.appendChild(row);
   });
-function animateRefresh(element) {
-  element.style.animation = 'none';
-  element.offsetHeight; // reset
-  element.style.animation = 'fadeUp .3s ease';
 }
-
