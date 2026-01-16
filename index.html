@@ -1,110 +1,71 @@
-:root {
-  --bg: #0b1220;
-  --card: #111a2e;
-  --accent: #1e90ff;
-  --accent-soft: #4da3ff;
-  --text: #e6ecff;
-  --muted: #9aa7c7;
-  --danger: #ff5c5c;
-}
+<!DOCTYPE html>
+<h2>Classroom To-Do</h2>
+<div>
+<span id="currentUser"></span>
+<button onclick="logout()">Logout</button>
+</div>
+</header>
 
-* {
-  box-sizing: border-box;
-  font-family: system-ui, Arial, sans-serif;
-}
 
-body {
-  margin: 0;
-  background: linear-gradient(135deg, #0b1220, #0e1630);
-  color: var(--text);
-  min-height: 100vh;
-}
+<main>
+<div id="loginCard" class="card">
+<h3>Login / Create Account</h3>
+<input id="username" placeholder="Username" />
+<input id="password" type="password" placeholder="Password" />
+<button onclick="login()">Login</button>
+<button onclick="register()">Create Account</button>
+</div>
 
-header {
-  background: var(--card);
-  color: var(--text);
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,.4);
-  animation: fadeUp .4s ease;
-}
 
-main {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
+<div id="app" class="hidden">
+<nav class="card">
+<button onclick="openTab('todos')">To-Do</button>
+<button onclick="openTab('users')" id="tabUsers">Users</button>
+<button onclick="openTab('log')">Updates</button>
+</nav>
 
-.card {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.4);
-  animation: fadeUp .4s ease;
-}
 
-.hidden {
-  display: none;
-}
+<div id="todos" class="card hidden">
+<h3>Subjects</h3>
+<div id="subjectTabs"></div>
 
-button {
-  background: var(--accent);
-  border: none;
-  border-radius: 10px;
-  padding: 8px 14px;
-  color: white;
-  cursor: pointer;
-  transition: transform .15s ease, background .15s ease;
-}
 
-button:hover {
-  background: var(--accent-soft);
-  transform: translateY(-2px);
-}
+<div id="subjectEditor" class="hidden">
+<input id="newSubject" placeholder="New subject" />
+<button onclick="addSubject()">Add Subject</button>
+</div>
 
-button:active {
-  transform: scale(.97);
-}
 
-button.danger {
-  background: var(--danger);
-}
+<div id="todoEditor" class="hidden">
+<input id="todoTitle" placeholder="Task title" />
+<input id="todoDue" placeholder="Due date" />
+<textarea id="todoNotes" placeholder="Notes / context"></textarea>
+<select id="todoIcon"><option>✔</option><option>★</option><option>⚠</option><option>📘</option></select>
+<button onclick="addTodo()">Add Task</button>
+</div>
 
-input, select, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: none;
-  background: #0f1933;
-  color: var(--text);
-}
 
-#subjectTabs button {
-  margin: 4px;
-}
+<ul id="todoList"></ul>
+</div>
 
-li {
-  list-style: none;
-  margin-bottom: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  background: #0f1933;
-  animation: fadeUp .3s ease;
-}
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+<div id="users" class="card hidden">
+<h3>User Management</h3>
+<div id="userManager"></div>
+</div>
 
-/* Mobile */
-@media (max-width: 600px) {
-  body { padding: 10px; }
 
-  .card { padding: 12px; }
+<div id="log" class="card hidden">
+<h3>Update Log</h3>
+<ul id="logList"></ul>
+</div>
+</div>
+</main>
 
-  button { width: 100%; margin-top: 6px; }
-}
+
+<script src="js/auth.js"></script>
+<script src="js/subjects.js"></script>
+<script src="js/todos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
