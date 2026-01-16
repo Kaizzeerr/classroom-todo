@@ -18,6 +18,10 @@ function renderLog() {
 function setupPermissions() {
   const role = users[currentUser].role;
 
+  todoEditor.classList.add('hidden');
+  subjectEditor.classList.add('hidden');
+  tabUsers.style.display = 'inline-block';
+
   if (role !== 'viewer') {
     todoEditor.classList.remove('hidden');
     subjectEditor.classList.remove('hidden');
@@ -42,19 +46,38 @@ function openTab(tab) {
 
 function renderUsers() {
   if (users[currentUser].role !== 'moderator') return;
+
   userManager.innerHTML = '';
+
   Object.keys(users).forEach(u => {
     const row = document.createElement('div');
-    row.textContent = u;
+    row.textContent = u + ' ';
+
+    const select = document.createElement('select');
+    ['moderator', 'editor', 'viewer'].forEach(r => {
+      const opt = document.createElement('option');
+      opt.value = r;
+      opt.textContent = r;
+      if (users[u].role === r) opt.selected = true;
+      select.appendChild(opt);
+    });
+
+    select.onchange = () => {
+      users[u].role = select.value;
+      saveUsers();
+      setupPermissions();
+    };
 
     const del = document.createElement('button');
     del.textContent = 'Delete';
     del.onclick = () => {
+      if (u === currentUser) return alert('Cannot delete yourself');
       delete users[u];
       saveUsers();
       renderUsers();
     };
 
+    row.appendChild(select);
     row.appendChild(del);
     userManager.appendChild(row);
   });
