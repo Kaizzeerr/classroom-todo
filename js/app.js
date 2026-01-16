@@ -82,3 +82,15 @@ function renderUsers() {
     userManager.appendChild(row);
   });
 }
+document.addEventListener('DOMContentLoaded', () => {
+  // Ensure DOM elements exist
+  currentUser = localStorage.getItem('currentUser') || null;
+  if (currentUser) {
+    document.getElementById('loginCard').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    document.getElementById('currentUser').textContent = currentUser;
+  }
+
+  setupPermissions();
+});
+
