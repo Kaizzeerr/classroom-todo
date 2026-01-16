@@ -1,74 +1,48 @@
 function addTodo() {
-completed: false
-});
+  if (!todoTitle.value) return alert('Task title required');
 
+  subjects[currentSubject].push({
+    title: todoTitle.value,
+    due: todoDue.value,
+    notes: todoNotes.value,
+    icon: todoIcon.value
+  });
 
-todoTitle.value = '';
-todoDue.value = '';
-todoNotes.value = '';
+  todoTitle.value = '';
+  todoDue.value = '';
+  todoNotes.value = '';
 
-
-saveSubjects();
-log('Added task');
-renderTodos();
+  saveSubjects();
+  log('Added task');
+  renderTodos();
 }
-
 
 function deleteTodo(index) {
-subjects[currentSubject].splice(index, 1);
-saveSubjects();
-log('Deleted task');
-renderTodos();
+  subjects[currentSubject].splice(index, 1);
+  saveSubjects();
+  log('Deleted task');
+  renderTodos();
 }
-
-
-function toggleComplete(index) {
-subjects[currentSubject][index].completed = !subjects[currentSubject][index].completed;
-saveSubjects();
-renderTodos();
-}
-
 
 function renderTodos() {
-todoList.innerHTML = '';
-animateRefresh(todoList);
+  todoList.innerHTML = '';
 
+  subjects[currentSubject]?.forEach((t, i) => {
+    const li = document.createElement('li');
 
-subjects[currentSubject]?.forEach((t, i) => {
-const li = document.createElement('li');
+    li.innerHTML = `
+      ${t.icon} <strong>${t.title}</strong><br>
+      ${t.due ? 'Due: ' + t.due + '<br>' : ''}
+      ${t.notes || ''}
+    `;
 
+    if (users[currentUser].role !== 'viewer') {
+      const del = document.createElement('button');
+      del.textContent = 'Delete';
+      del.onclick = () => deleteTodo(i);
+      li.appendChild(del);
+    }
 
-const left = document.createElement('div');
-left.innerHTML = `${t.icon} <strong>${t.title}</strong><br>${t.due ? 'Due: ' + t.due + '<br>' : ''}${t.notes || ''}`;
-if (t.completed) left.style.textDecoration = 'line-through';
-
-
-li.appendChild(left);
-
-
-const right = document.createElement('div');
-if (users[currentUser].role !== 'viewer') {
-const del = document.createElement('button');
-del.textContent = 'Delete';
-del.onclick = () => deleteTodo(i);
-right.appendChild(del);
-
-
-const chk = document.createElement('input');
-chk.type = 'checkbox';
-chk.checked = t.completed;
-chk.onchange = () => toggleComplete(i);
-right.appendChild(chk);
-} else {
-const chk = document.createElement('input');
-chk.type = 'checkbox';
-chk.checked = t.completed;
-chk.disabled = true;
-right.appendChild(chk);
-}
-
-
-li.appendChild(right);
-todoList.appendChild(li);
-});
+    todoList.appendChild(li);
+  });
 }
