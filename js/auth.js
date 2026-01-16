@@ -1,34 +1,36 @@
 const users = JSON.parse(localStorage.getItem('users')) || {
-admin: { password: 'admin', role: 'moderator' }
+  admin: { password: 'SUPERSECRETADMINPASSWORDWAHAHAHA', role: 'moderator' }
 };
-
 
 let currentUser = null;
 
-
 function saveUsers() {
-localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem('users', JSON.stringify(users));
 }
-
 
 function register() {
-const u = username.value;
-const p = password.value;
-if (!u || !p || users[u]) return alert('Invalid or existing user');
-users[u] = { password: p, role: 'viewer' };
-saveUsers();
-alert('Account created. You can now log in.');
+  if (!username.value || users[username.value]) {
+    alert('Invalid or existing user');
+    return;
+  }
+  users[username.value] = { password: password.value, role: 'viewer' };
+  saveUsers();
+  alert('Account created');
 }
 
-
 function login() {
-const u = username.value;
-const p = password.value;
-if (!users[u] || users[u].password !== p) return alert('Login failed');
-currentUser = u;
-document.getElementById('loginCard').classList.add('hidden');
-document.getElementById('app').classList.remove('hidden');
-document.getElementById('currentUser').innerText = `${u} (${users[u].role})`;
-setupPermissions();
-openTab('todos');
+  if (!users[username.value] || users[username.value].password !== password.value) {
+    alert('Login failed');
+    return;
+  }
+  currentUser = username.value;
+  loginCard.classList.add('hidden');
+  app.classList.remove('hidden');
+  document.getElementById('currentUser').innerText =
+    `${currentUser} (${users[currentUser].role})`;
+  setupPermissions();
+}
+
+function logout() {
+  location.reload();
 }
