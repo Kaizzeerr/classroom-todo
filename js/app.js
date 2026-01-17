@@ -1,3 +1,7 @@
+const todoEditor = document.getElementById('todoEditor');
+const subjectEditor = document.getElementById('subjectEditor');
+const tabUsers = document.getElementById('tabUsers');
+const userManager = document.getElementById('userManager');
 const updates = JSON.parse(localStorage.getItem('log')) || [];
 let currentUser = null;
 
