@@ -1,5 +1,7 @@
 const updates = JSON.parse(localStorage.getItem('log')) || [];
+let currentUser = null;
 
+// Logging functions
 function log(text) {
   updates.unshift(`${new Date().toLocaleString()} - ${text}`);
   localStorage.setItem('log', JSON.stringify(updates));
@@ -7,6 +9,7 @@ function log(text) {
 }
 
 function renderLog() {
+  const logList = document.getElementById('logList');
   logList.innerHTML = '';
   updates.forEach(l => {
     const li = document.createElement('li');
@@ -15,6 +18,7 @@ function renderLog() {
   });
 }
 
+// Permissions and UI setup
 function setupPermissions() {
   const role = users[currentUser].role;
 
@@ -37,6 +41,7 @@ function setupPermissions() {
   renderLog();
 }
 
+// Tab management
 function openTab(tab) {
   ['todos', 'users', 'log'].forEach(t =>
     document.getElementById(t).classList.add('hidden')
@@ -44,6 +49,7 @@ function openTab(tab) {
   document.getElementById(tab).classList.remove('hidden');
 }
 
+// Render users (moderator only)
 function renderUsers() {
   if (users[currentUser].role !== 'moderator') return;
 
@@ -82,64 +88,51 @@ function renderUsers() {
     userManager.appendChild(row);
   });
 }
+
+// DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-  // Ensure DOM elements exist
   currentUser = localStorage.getItem('currentUser') || null;
+
   if (currentUser) {
     document.getElementById('loginCard').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     document.getElementById('currentUser').textContent = currentUser;
   }
-function addLog(text) {
-  logs = logs || [];
-  logs.push(text);
-  localStorage.setItem('updateLogs', JSON.stringify(logs));
-  renderLogs();
-}
 
-function renderLogs() {
-  const logList = document.getElementById('logList');
-  logList.innerHTML = '';
-  logs.forEach((entry, index) => {
-    const li = document.createElement('li');
-    li.textContent = entry;
+  // Logs
+  let logs = JSON.parse(localStorage.getItem('updateLogs')) || [];
+
+  function renderLogs() {
+    const logList = document.getElementById('logList');
+    logList.innerHTML = '';
+    logs.forEach((entry, index) => {
+      const li = document.createElement('li');
+      li.textContent = entry;
+
+      // Delete button only for moderators
+      if (users[currentUser].role === 'moderator') {
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.className = 'danger';
+        delBtn.style.float = 'right';
+        delBtn.onclick = () => {
+          logs.splice(index, 1);
+          localStorage.setItem('updateLogs', JSON.stringify(logs));
+          renderLogs();
+        };
+        li.appendChild(delBtn);
+      }
+
+      logList.appendChild(li);
+    });
   }
-function addLog(text) {
-  logs = logs || [];
-  logs.push(text);
-  localStorage.setItem('updateLogs', JSON.stringify(logs));
+
+  function addLog(text) {
+    logs.push(text);
+    localStorage.setItem('updateLogs', JSON.stringify(logs));
+    renderLogs();
+  }
+
   renderLogs();
-}
-
-function renderLogs() {
-  const logList = document.getElementById('logList');
-  logList.innerHTML = '';
-  logs.forEach((entry, index) => {
-    const li = document.createElement('li');
-    li.textContent = entry;
-
-    // Delete button only for moderators
-    if (currentUserRole === 'moderator') {
-      const delBtn = document.createElement('button');
-      delBtn.textContent = 'Delete';
-      delBtn.className = 'danger';
-      delBtn.style.float = 'right';
-      delBtn.onclick = () => {
-        logs.splice(index, 1);
-        localStorage.setItem('updateLogs', JSON.stringify(logs));
-        renderLogs();
-      };
-      li.appendChild(delBtn);
-    }
-
-    logList.appendChild(li);
-  });
-}
-
-// Load logs from localStorage on page load
-logs = JSON.parse(localStorage.getItem('updateLogs')) || [];
-renderLogs();
-}
   setupPermissions();
 });
-
