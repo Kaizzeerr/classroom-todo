@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('tabTodos').addEventListener('click', () => openTab('todos'));
 document.getElementById('tabUsers').addEventListener('click', () => openTab('users'));
 document.getElementById('tabLog').addEventListener('click', () => openTab('log'));
+}
   currentUser = localStorage.getItem('currentUser');
 
   if (currentUser) {
