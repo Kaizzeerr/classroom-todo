@@ -6,6 +6,10 @@ const subjects = JSON.parse(localStorage.getItem('subjects')) || {
 
 let currentSubject = Object.keys(subjects)[0];
 
+// DOM elements
+const newSubject = document.getElementById('newSubject');
+const subjectTabs = document.getElementById('subjectTabs');
+
 function saveSubjects() {
   localStorage.setItem('subjects', JSON.stringify(subjects));
 }
@@ -47,7 +51,7 @@ function renderSubjects() {
     };
     subjectTabs.appendChild(btn);
 
-    if (users[currentUser].role !== 'viewer') {
+    if (currentUser && users[currentUser] && users[currentUser].role !== 'viewer') {
       const del = document.createElement('button');
       del.textContent = '✖';
       del.onclick = () => deleteSubject(s);
@@ -55,3 +59,6 @@ function renderSubjects() {
     }
   });
 }
+
+// expose for inline onclick
+window.addSubject = addSubject;
