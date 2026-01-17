@@ -1,5 +1,5 @@
 const users = JSON.parse(localStorage.getItem('users')) || {
-  admin: { password: 'Kyzer12033', role: 'moderator' }
+  admin: { password: 'admin', role: 'moderator' }
 };
 
 let currentUser = null;
