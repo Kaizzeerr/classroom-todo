@@ -96,14 +96,6 @@ function addLog(text) {
   localStorage.setItem('updateLogs', JSON.stringify(logs));
   renderLogs();
 }
-
-function renderLogs() {
-  const logList = document.getElementById('logList');
-  logList.innerHTML = '';
-  logs.forEach((entry, index) => {
-    const li = document.createElement('li');
-    li.textContent = entry;
-
     // Delete button only for moderators
     if (currentUserRole === 'moderator') {
       const delBtn = document.createElement('button');
@@ -125,6 +117,13 @@ function renderLogs() {
 // Load logs from localStorage on page load
 logs = JSON.parse(localStorage.getItem('updateLogs')) || [];
 renderLogs();
+
+function renderLogs() {
+  const logList = document.getElementById('logList');
+  logList.innerHTML = '';
+  logs.forEach((entry, index) => {
+    const li = document.createElement('li');
+    li.textContent = entry;
 
   setupPermissions();
 });
