@@ -1,11 +1,11 @@
-root {
-  --bg: #4da3ff;
-  --card: #4da3ff;
-  --accent: #33658A;
-  --accent-soft: #2F4858;
-  --text: #8FBFE0;
-  --muted: #8FBFE0;
-  --danger: #8FBFE0;
+:root {
+  --bg: #0b1220;
+  --card: #111a2e;
+  --accent: #1e90ff;
+  --accent-soft: #4da3ff;
+  --text: #e6ecff;
+  --muted: #9aa7c7;
+  --danger: #ff5c5c;
 }
 
 * {
@@ -15,7 +15,7 @@ root {
 
 body {
   margin: 0;
-  background: linear-gradient(33658A, #33658A, #8FBFE0);
+  background: linear-gradient(135deg, #0b1220, #0e1630);
   color: var(--text);
   min-height: 100vh;
 }
@@ -45,7 +45,9 @@ main {
   animation: fadeUp .4s ease;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
 button {
   background: var(--accent);
@@ -66,7 +68,9 @@ button:active {
   transform: scale(.97);
 }
 
-button.danger { background: var(--danger); }
+button.danger {
+  background: var(--danger);
+}
 
 input, select, textarea {
   width: 100%;
@@ -88,9 +92,6 @@ li {
   padding: 12px;
   border-radius: 12px;
   background: #0f1933;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   animation: fadeUp .3s ease;
 }
 
@@ -102,6 +103,8 @@ li {
 /* Mobile */
 @media (max-width: 600px) {
   body { padding: 10px; }
+
   .card { padding: 12px; }
+
   button { width: 100%; margin-top: 6px; }
 }
