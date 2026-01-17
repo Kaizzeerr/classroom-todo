@@ -1,64 +1,82 @@
 function addTodo() {
-  const title = document.getElementById('todoTitle').value;
-  const due = document.getElementById('todoDue').value;
-  const notes = document.getElementById('todoNotes').value;
-  const icon = document.getElementById('todoIcon').value || '📘';
-  if (!title) return;
+if (!todoTitle.value) return alert('Task title required');
 
-  const todo = { title, due, notes, icon, completed: false, subject: currentSubject };
 
-  todos[currentUser] = todos[currentUser] || [];
-  todos[currentUser].push(todo);
-  saveTodos();
+subjects[currentSubject].push({
+title: todoTitle.value,
+due: todoDue.value,
+notes: todoNotes.value,
+icon: todoIcon.value,
+completed: false
+});
 
-  // Add to DOM
-  renderTodo(todo);
 
-  // Update log
-  addLog(`${currentUser} - Added a new task on ${currentSubject}`);
+todoTitle.value = '';
+todoDue.value = '';
+todoNotes.value = '';
+
+
+saveSubjects();
+log('Added task');
+renderTodos();
 }
 
-function renderTodo(todo) {
-  const li = document.createElement('li');
-  li.classList.add('added');
 
-  const topRow = document.createElement('div');
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.checked = todo.completed;
+function deleteTodo(index) {
+subjects[currentSubject].splice(index, 1);
+saveSubjects();
+log('Deleted task');
+renderTodos();
+}
 
-  checkbox.onchange = () => {
-    todo.completed = checkbox.checked;
-    li.classList.toggle('completed', todo.completed);
-    saveTodos();
-  };
 
-  const iconSpan = document.createElement('span');
-  iconSpan.className = 'icon';
-  iconSpan.textContent = todo.icon;
+function toggleComplete(index) {
+subjects[currentSubject][index].completed = !subjects[currentSubject][index].completed;
+saveSubjects();
+renderTodos();
+}
 
-  const titleStrong = document.createElement('strong');
-  titleStrong.textContent = todo.title;
 
-  topRow.appendChild(checkbox);
-  topRow.appendChild(iconSpan);
-  topRow.appendChild(titleStrong);
-  li.appendChild(topRow);
+function renderTodos() {
+todoList.innerHTML = '';
+animateRefresh(todoList);
 
-  if (todo.due) {
-    const dueSmall = document.createElement('small');
-    dueSmall.textContent = `Due: ${todo.due}`;
-    li.appendChild(dueSmall);
-  }
 
-  if (todo.notes) {
-    const notesP = document.createElement('p');
-    notesP.textContent = todo.notes;
-    li.appendChild(notesP);
-  }
+subjects[currentSubject]?.forEach((t, i) => {
+const li = document.createElement('li');
 
-  document.getElementById('todoList').appendChild(li);
 
-  // Remove animation class after it plays
-  setTimeout(() => li.classList.remove('added'), 300);
+const left = document.createElement('div');
+left.innerHTML = `${t.icon} <strong>${t.title}</strong><br>${t.due ? 'Due: ' + t.due + '<br>' : ''}${t.notes || ''}`;
+if (t.completed) left.style.textDecoration = 'line-through';
+
+
+li.appendChild(left);
+
+
+const right = document.createElement('div');
+if (users[currentUser].role !== 'viewer') {
+const del = document.createElement('button');
+del.textContent = 'Delete';
+del.onclick = () => deleteTodo(i);
+right.appendChild(del);
+
+
+const chk = document.createElement('input');
+chk.type = 'checkbox';
+chk.checked = t.completed;
+chk.onchange = () => toggleComplete(i);
+right.appendChild(chk);
+} else {
+const chk = document.createElement('input');
+chk.type = 'checkbox';
+chk.checked = t.completed;
+chk.disabled = true;
+right.appendChild(chk);
+}
+
+
+li.appendChild(right);
+todoList.appendChild(li);
+});
 }
