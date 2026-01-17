@@ -1,11 +1,12 @@
 :root {
-  --bg: #0b1220;
-  --card: #2F4858;
-  --accent: #1e90ff;
-  --accent-soft: #4da3ff;
-  --text: #8FBFE0;
-  --muted: #9aa7c7;
-  --danger: #ff5c5c;
+  --bg-light: #3b82f6;   /* light blue */
+  --bg-dark: #08182f;    /* dark blue */
+  --card: #0f2a44;
+  --accent: #4da3ff;
+  --accent-soft: #7bbcff;
+  --text: #e6f2ff;
+  --muted: #b6c8e0;
+  --danger: #ff6b6b;
 }
 
 * {
@@ -15,12 +16,12 @@
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #0b1220, #0e1630);
+  background: linear-gradient(135deg, var(--bg-light), var(--bg-dark));
   color: var(--text);
   min-height: 100vh;
 }
 
-/* Ensure all text inherits the light color */
+/* Force readable text everywhere */
 body, h1, h2, h3, h4, h5, h6, p, span, div, li, label {
   color: var(--text);
 }
@@ -81,8 +82,8 @@ input, select, textarea {
   padding: 8px;
   margin-top: 6px;
   border-radius: 8px;
-  border: 1px solid #1e2a4a;
-  background: #0f1933;
+  border: 1px solid #1e3a8a;
+  background: #102a44;
   color: var(--text);
 }
 
@@ -100,7 +101,7 @@ li {
   margin-bottom: 12px;
   padding: 12px;
   border-radius: 12px;
-  background: #0f1933;
+  background: #102a44;
   animation: fadeUp .3s ease;
 }
 
