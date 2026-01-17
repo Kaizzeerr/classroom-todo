@@ -96,27 +96,6 @@ function addLog(text) {
   localStorage.setItem('updateLogs', JSON.stringify(logs));
   renderLogs();
 }
-    // Delete button only for moderators
-    if (currentUserRole === 'moderator') {
-      const delBtn = document.createElement('button');
-      delBtn.textContent = 'Delete';
-      delBtn.className = 'danger';
-      delBtn.style.float = 'right';
-      delBtn.onclick = () => {
-        logs.splice(index, 1);
-        localStorage.setItem('updateLogs', JSON.stringify(logs));
-        renderLogs();
-      };
-      li.appendChild(delBtn);
-    }
-
-    logList.appendChild(li);
-  });
-}
-
-// Load logs from localStorage on page load
-logs = JSON.parse(localStorage.getItem('updateLogs')) || [];
-renderLogs();
 
 function renderLogs() {
   const logList = document.getElementById('logList');
