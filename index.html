@@ -16,7 +16,7 @@
     <span id="currentUser"></span>
     <button onclick="logout()">Logout</button>
   </div>
-</header>
+</header> 
 
 <main>
   <div id="loginCard" class="card">
@@ -47,7 +47,35 @@
         <input id="todoTitle" placeholder="Task title" />
         <input id="todoDue" placeholder="Due date" />
         <textarea id="todoNotes" placeholder="Notes / context"></textarea>
-        <select id="todoIcon"><option>✔</option><option>★</option><option>⚠</option><option>📘</option></select>
+        <select id="todoIcon">
+  <!-- School -->
+  <option>📘</option>
+  <option>📗</option>
+  <option>📕</option>
+  <option>📙</option>
+  <option>📝</option>
+  <option>📄</option>
+
+  <!-- Priority -->
+  <option>⭐</option>
+  <option>🔥</option>
+  <option>❗</option>
+  <option>❓</option>
+  <option>⚠</option>
+
+  <!-- Status -->
+  <option>✔</option>
+  <option>⏳</option>
+  <option>🕒</option>
+  <option>⌛</option>
+
+  <!-- Focus / Misc -->
+  <option>🎯</option>
+  <option>📌</option>
+  <option>🧠</option>
+  <option>💡</option>
+  <option>🚀</option>
+</select>
         <button onclick="addTodo()">Add Task</button>
       </div>
 
