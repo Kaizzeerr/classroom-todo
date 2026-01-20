@@ -1,94 +1,61 @@
-// Load todos
-const todos = JSON.parse(localStorage.getItem('todos')) || {};
-
-function saveTodos() {
-  localStorage.setItem('todos', JSON.stringify(todos));
-}
-
-// Add todo
 function addTodo() {
-  if (!currentUser) return;
+const title = todoTitle.value;
+if (!title) return;
 
-  const title = document.getElementById('todoTitle').value;
-  const due = document.getElementById('todoDue').value;
-  const notes = document.getElementById('todoNotes').value;
-  const icon = document.getElementById('todoIcon').value || '📘';
 
-  if (!title) return;
+const todo = {
+title,
+due: todoDue.value,
+notes: todoNotes.value,
+icon: todoIcon.value,
+completed: false
+};
 
-  const todo = {
-    title,
-    due,
-    notes,
-    icon,
-    completed: false,
-    subject: currentSubject
-  };
 
-  todos[currentUser] = todos[currentUser] || [];
-  todos[currentUser].push(todo);
-  saveTodos();
+todos[currentSubject] = todos[currentSubject] || [];
+todos[currentSubject].push(todo);
+localStorage.setItem('todos', JSON.stringify(todos));
 
-  renderTodos();
-  log(`${currentUser} added a task in ${currentSubject}`);
+
+renderTodos();
+addLog(`${currentUser} - Added a new task on ${currentSubject}`);
 }
 
-// Render all todos for current subject
+
 function renderTodos() {
-  const list = document.getElementById('todoList');
-  list.innerHTML = '';
+todoList.innerHTML = '';
+(todos[currentSubject] || []).forEach((todo, i) => {
+const li = document.createElement('li');
 
-  if (!currentUser || !todos[currentUser]) return;
 
-  todos[currentUser]
-    .filter(t => t.subject === currentSubject)
-    .forEach(renderTodo);
+const row = document.createElement('div');
+const cb = document.createElement('input');
+cb.type = 'checkbox';
+cb.checked = todo.completed;
+cb.onchange = () => {
+todo.completed = cb.checked;
+li.classList.toggle('completed', cb.checked);
+localStorage.setItem('todos', JSON.stringify(todos));
+};
+
+
+const icon = document.createElement('span');
+icon.className = 'icon';
+icon.textContent = todo.icon;
+
+
+const title = document.createElement('strong');
+title.textContent = todo.title;
+
+
+row.append(cb, icon, title);
+li.append(row);
+
+
+if (todo.due) li.innerHTML += `<small>Due: ${todo.due}</small>`;
+if (todo.notes) li.innerHTML += `<p>${todo.notes}</p>`;
+
+
+todoList.appendChild(li);
+});
 }
-
-// Render single todo
-function renderTodo(todo) {
-  const li = document.createElement('li');
-  li.classList.add('added');
-
-  const topRow = document.createElement('div');
-
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.checked = todo.completed;
-  checkbox.onchange = () => {
-    todo.completed = checkbox.checked;
-    li.classList.toggle('completed', todo.completed);
-    saveTodos();
-  };
-
-  const iconSpan = document.createElement('span');
-  iconSpan.className = 'icon';
-  iconSpan.textContent = todo.icon;
-
-  const titleStrong = document.createElement('strong');
-  titleStrong.textContent = todo.title;
-
-  topRow.appendChild(checkbox);
-  topRow.appendChild(iconSpan);
-  topRow.appendChild(titleStrong);
-  li.appendChild(topRow);
-
-  if (todo.due) {
-    const dueSmall = document.createElement('small');
-    dueSmall.textContent = `Due: ${todo.due}`;
-    li.appendChild(dueSmall);
-  }
-
-  if (todo.notes) {
-    const notesP = document.createElement('p');
-    notesP.textContent = todo.notes;
-    li.appendChild(notesP);
-  }
-
-  document.getElementById('todoList').appendChild(li);
-
-  setTimeout(() => li.classList.remove('added'), 300);
-}
-
-// expose for inline onclick
-window.addTodo = addTodo;
