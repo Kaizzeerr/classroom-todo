@@ -38,9 +38,10 @@ function setupPermissions() {
   renderUsers();
 }
 
-// Users tab
+// Users tab (moderator only)
 function renderUsers() {
   if (users[currentUser].role !== 'moderator') return;
+
   userManager.innerHTML = '';
 
   Object.keys(users).forEach(u => {
@@ -69,10 +70,6 @@ function renderUsers() {
 
 // DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('tabTodos').addEventListener('click', () => openTab('todos'));
-document.getElementById('tabUsers').addEventListener('click', () => openTab('users'));
-document.getElementById('tabLog').addEventListener('click', () => openTab('log'));
-}
   currentUser = localStorage.getItem('currentUser');
 
   if (currentUser) {
@@ -81,17 +78,18 @@ document.getElementById('tabLog').addEventListener('click', () => openTab('log')
     document.getElementById('currentUser').textContent = currentUser;
   }
 
-  // Button bindings
-  document.getElementById('tabTodos').addEventListener('click', () => openTab('todos'));
-  document.getElementById('tabUsers').addEventListener('click', () => openTab('users'));
-  document.getElementById('tabLog').addEventListener('click', () => openTab('log'));
+  // Tabs
+  document.getElementById('tabTodos').onclick = () => openTab('todos');
+  document.getElementById('tabUsers').onclick = () => openTab('users');
+  document.getElementById('tabLog').onclick = () => openTab('log');
 
-  document.getElementById('addSubjectBtn').addEventListener('click', addSubject);
-  document.getElementById('addTodoBtn').addEventListener('click', addTodo);
+  // Buttons
+  document.getElementById('addSubjectBtn').onclick = addSubject;
+  document.getElementById('addTodoBtn').onclick = addTodo;
 
-  document.getElementById('loginBtn').addEventListener('click', login);
-  document.getElementById('registerBtn').addEventListener('click', register);
-  document.getElementById('logoutBtn').addEventListener('click', logout);
+  document.getElementById('loginBtn').onclick = login;
+  document.getElementById('registerBtn').onclick = register;
+  document.getElementById('logoutBtn').onclick = logout;
 
   setupPermissions();
 });
